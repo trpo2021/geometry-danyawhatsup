@@ -2,89 +2,101 @@
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 
-void check_circle(char* search, int max_string){
-    char check_string[] = {'c', 'i', 'r', 'c', 'l', 'e'};
-    char s_str[max_string];
-    int i, j;
-
-    for (i = 0; search[i] != '('; i++) {
-        search[i] = tolower (search[i]);
+void check_circle(char* search, int m_string){
+    char check_string[] = {'c', 'i', 'r', 'c', 'l', 'e', '('};
+    int is_true = 0;
+    int i, j, n;
+    //char x, y, r;
+    //правильность написания + ргеистр
+    for (i = 0; i < 7; ++i) {
+        if (tolower(search[i]) != check_string[i]) {
+            is_true = 1;
+        }
     }
-    
-    for (i = 0; search[i] != '('; i++) {
-        s_str[i] = search[i];
+        if (is_true != 0) {
+            printf("^");
+            printf("\nError: expected 'circle': ");
+        }
+    //переход на первое значение в скобках, то есть на занчение 'x'
+    for (i =0; i < m_string; i++)
+    {
+        if (search[i] == '(' ) {
+            for (j = i; search[j+1] != ' '; j++)
+            {
+                if (((search[j+1] <= '9') && (search[j+1] >= '1'))) {
+                }
+                else{
+                    for (n =0; n != (j+1); j++) {
+                        printf(" ");
+                    }
+                    printf("\nError: expected x '<double>'");
+                    exit(0);
+                    
+                }
+            }
+        }
     }
-    j = strcmp(s_str, check_string);
-    if (j != 0) {
-        printf("%s""Error: expected 'circle'", s_str);
-        
+    //переход на значение 'y'
+    for (i =0; i < m_string; i++) {
+        if (search[i] == ' ') {
+            for (j = i; search[j+1] != ' '; j++) {
+                if ((search[j+1]<='9') && (search[j+1]>='1')) {
+                }
+                else{
+                    for (n =0; n != (j+1); j++) {
+                        printf(" ");
+                    }
+                    printf("\nError: expected y '<double>'");
+                    exit(0);
+                }
+            }
+        }
     }
-    
+    //проверка значения 'r'
+    for (i =0; i < m_string; i++) {
+        if ((search[i] == ',') && (search[i+1] == ' ')) {
+            for (j = i; search[j+1] != ' '; j++) {
+                if ((search[j+1] <= '9') && (search[j+1] >= '1')) {
+                    
+                }
+                else{
+                    for (n =0; n != (j+1); j++) {
+                        printf(" ");
+                    }
+                    printf("\nError: expected r '<double>'");
+                    exit(0);
+                }
+            }
+        }
+    }//потом переприсвоить радиус для вычисления периметра и площади
+    for (i = 0; i < m_string; i++) {
+        if (search[i] == '\0') {
+            if (search[i] == ')') {
+                
+            } else {
+                for (j = 0; j != i-1; j++) {
+                    printf(" ");
+                }
+                printf("\nError unexpected token");
+                exit(0);
+            }
+        }
+    }
 }
-
 
 int main()
 {
-    int max_string = 101;
-    char search[max_string];
-    char b1[1], sb[1], com[1], b2[1];
-    double x = 0.0, y = 0.0, r = 0.0;
+    int m_string = 60;
+    char search[m_string];
+    //float x = 0.0, y = 0.0, r = 0.0;
     
     printf("Enter your information as shown on the example: \nObject '(' Point ',' Number ')'\nPoint = Number Number\nNumber = (* Floating-point number *)\nEnter please: ");
-    scanf("%s",search);
-    check_circle(search, max_string);
-    for (int i = 0; i < 1; i++)
-    {
-        scanf("%c", &b1[i]);
-    }
-
-    for (int i = 0; i < 1; i++)
-    {
-        scanf("%lf", &x);
-    }
-
-    for (int i = 0; i < 1; i++)
-    {
-        scanf("%c", &sb[i]);
-    }
-
-    for (int i = 0; i < 1; i++)
-    {
-        scanf("%lf", &y);
-    }
-
-    for (int i = 0; i < 1; i++)
-    {
-        scanf("%c", &com[i]);
-    }
-
-    for (int i = 0; i < 1; i++)
-    {
-        scanf("%c", &sb[i]);
-    }
-
-    for (int i = 0; i < 1; i++)
-    {
-        scanf("%lf", &r);
-    }
-
-    for (int i = 0; i < 1; i++)
-    {
-        scanf("%c", &b2[i]);
-    }
+    scanf("%[^\n]s",search);
+    check_circle(search, m_string);
     
-    if (x != (int)x) {
-        printf("Expected x '<double>'");
-    }
-    
-    if (y != (int)y) {
-        printf("Expected y '<double>'");
-    }
-    
-    if (r != (int)r) {
-        printf("Expected r '<double>'");
-    }
+
 }
 
 

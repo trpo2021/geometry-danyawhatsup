@@ -8,7 +8,7 @@ void check_circle(char* search, int m_string)
 {
     char check_string[] = {'c', 'i', 'r', 'c', 'l', 'e', '('};
     int is_true = 0;
-    int i, j, n, k;
+    int i, j, n;
     //char x, y, r;
     
     //правильность написания + ргеистр
@@ -19,6 +19,7 @@ void check_circle(char* search, int m_string)
     }
         if (is_true != 0) {
             printf("\nError: expected 'circle': ");
+            exit(0);
         }
     
     //переход на первое значение в скобках, то есть на занчение 'x'
@@ -36,31 +37,28 @@ void check_circle(char* search, int m_string)
                         printf(" ");
                     }
                     printf("\nError: expected x '<double>'");
+                    exit(0);
                 }
             }
         }
     }
     
     //переход на значение 'y'
-    for (i =0; i < m_string; i++)
+    for (i = 0; i < m_string; i++)
     {
         if (search[i] == ' ')
         {
-            for (k = 1; k < m_string; k++)
+            for (j = i; search[j+1] != ','; j++)
             {
-                if (search[i] == ',')
-                {
-                    for (j = i; search[j+1] != ' '; j++)
+                if ((search[j+1] <= '9') && (search[j+1] >= '1')) {
+                }
+                else{
+                    for (n = 0; n != (j+1); n++)
                     {
-                        if ((search[j+1]<='9') && (search[j+1]>='0')) {
-                        }
-                        else{
-                            for (n = 0; n != (j+1); n++) {
-                                printf(" ");
-                            }
-                            printf("\nError: expected y '<double>'");
-                        }
+                        printf(" ");
                     }
+                    printf("\nError: expected y '<double>'");
+                    exit(0);
                 }
             }
         }
@@ -81,6 +79,7 @@ void check_circle(char* search, int m_string)
                         printf(" ");
                     }
                     printf("\nError: expected r '<double>'");
+                    exit(0);
                 }
             }
         }
@@ -97,6 +96,30 @@ void output(char* search, int m_string){
     
 }
 
+void p_and_a(char* search, int m_string)
+{
+    int i, j;
+    char rad[m_string];
+    float perimeter, area, r;
+    r = 0;
+
+    for (i = 0; i < m_string; i++)
+    {
+        if ((search[i] == ',') && (search[i + 1] == ' '))
+        {
+            for (j = i; search[j + 1] != ')'; j++)
+            {
+                rad[j - i] = search[j + 1];
+            }
+        }
+    }
+    r = atof(rad);
+    area = M_PI * r * r;
+    perimeter = 2 * M_PI * r;
+    printf("\n perimeter = %.4f\n area = %.4f\n", perimeter, area);
+}
+
+
 int main()
 {
     int m_string = 60;
@@ -107,10 +130,5 @@ int main()
     scanf("%[^\n]s",search);
     check_circle(search, m_string);
     output(search, m_string);
+    p_and_a(search, m_string);
 }
-
-
-
- 
-    
-

@@ -46,11 +46,11 @@ void check_circle(char* search, int m_string)
     //переход на значение 'y'
     for (i = 0; i < m_string; i++)
     {
-        if (search[i] == ' ')
+        if (search[i] == " ")
         {
             for (j = i; search[j+1] != ','; j++)
             {
-                if ((search[j+1] <= '9') && (search[j+1] >= '1')) {
+                if ((search[j+1] <= '9') && (search[j+1] >= '0')) {
                 }
                 else{
                     for (n = 0; n != (j+1); n++)
@@ -67,7 +67,7 @@ void check_circle(char* search, int m_string)
     //проверка значения 'r'
     for (i = 0; i < m_string; i++)
     {
-        if ((search[i] == ',') && (search[i+1] == ' '))
+        if ((search[i] == ',') && (search[i+1] == " "))
         {
             for (j = (i+1); search[j+1] != ')'; j++)
             {
@@ -132,3 +132,4 @@ int main()
     output(search, m_string);
     p_and_a(search, m_string);
 }
+

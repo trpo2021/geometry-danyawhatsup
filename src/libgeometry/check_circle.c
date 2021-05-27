@@ -5,108 +5,86 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-void check_circle(char* search, int m_string)
+enum Errors { UnExpToken = 1, ExpBracket, ExpDouble, ExpCircle };
+
+int check_circle(char* search, int m_string)
 {
-    char check_string[] = {'c', 'i', 'r', 'c', 'l', 'e', '('};
-    int is_true = 0;
-    int i, j, n, g;
-    //char x, y, r;
-    
-    //правильность написания + ргеистр
+    char check_str[] = {'c', 'i', 'r', 'c', 'l', 'e', '('};
+    int i, g, j;
+
+    // check circle
     for (i = 0; i < 7; ++i) {
-        if (tolower(search[i]) != check_string[i]) {
-            is_true = 1;
+        if (tolower(search[i]) != check_str[i]) {
+            return ExpCircle;
         }
     }
-        if (is_true != 0) {
-            printf("\nError: expected 'circle': ");
-            exit(0);
-        }
-    //проверка на символы после ')'
-    for (i = 0; i < m_string; i++)
-        {
-            if (search[i] == ')')
-            {
-                if (search[i+1] == '\0'){
-                }
-                else{
-                    for (j = 0; j != (i+1); j++)
-                    {
-                        printf(" ");
-                    }
-                    printf("\nError: after thr parentheses, nothing was expected");
-                    exit(0);
-                }
+
+    // check for anything after ')'
+    for (i = 0; i < m_string; i++) {
+        if (search[i] == ')') {
+            if (search[i + 1] == '\0') {
+                return 0;
+            } else {
+                return UnExpToken;
             }
         }
-    
-    //переход на первое значение в скобках, то есть на занчение 'x'
-    for (i = 0; i < m_string; i++)
-    {
-        if (search[i] == '(')
-        {
-            for (j = i; search[j+1] != ' '; j++)
-            {
-                if (((search[j+1]<='9') && (search[j+1]>='1')) || (search[j+1] =='.')) {
-                }
-                else{
-                    for (n = 0; n != (j+1); n++)
-                    {
-                        printf(" ");
-                    }
-                    printf("\nError: expected x '<double>'");
-                    exit(0);
+    }
+
+    // check ')'
+    for (i = 0; i < m_string; i++) {
+        if (search[i] == '\0') {
+            if (search[i - 1] == ')') {
+                return 0;
+            } else {
+                return ExpBracket;
+            }
+        }
+    }
+
+    // check x coord
+    for (i = 0; i < m_string; i++) {
+        if (search[i] == '(') {
+            for (g = i; search[g + 1] != ' '; g++) {
+                if (((search[g + 1] <= '9') && (search[g + 1] >= '0'))
+                    || (search[g + 1] == '.')) {
+                    return 0;
+                } else {
+                    return ExpDouble;
                 }
             }
         }
     }
-    
-    //переход на значение 'y'
-    for (i = 0; i < m_string; i++)
-        {
-            if (search[i] == ' ')
-            {
-                for (g = i; g < m_string; g++)
-                {
-                    if (search[g] == ',')
-                    {
-                        for (j = i; search[j + 1] != ','; j++)
-                        {
-                            if (((search[j+1]<='9') && (search[j+1]>='1')) || (search[j+1] =='.')){
-                            }
-                            else
-                            {
-                                for (n = 0; n != (j+1); n++){
-                                    printf(" ");
-                                }
-                                printf("\nError: expected y '<double>'");
-                        
-                                exit(0);
-                            }
+
+    // check y coord
+    for (i = 0; i < m_string; i++) {
+        if (search[i] == ' ') {
+            for (j = i; j < m_string; j++) {
+                if (search[j] == ',') {
+                    for (g = i; search[g + 1] != ','; g++) {
+                        if (((search[g + 1] <= '9') && (search[g + 1] >= '0'))
+                            || (search[g + 1] == '.')) {
+                            return 0;
+                        } else {
+                            return ExpDouble;
                         }
                     }
                 }
             }
         }
-   
-    //проверка значения 'r'
-    for (i = 0; i < m_string; i++)
-    {
-        if ((search[i] == ',') && (search[i+1] == ' '))
-        {
-            for (j = (i+1); search[j+1] != ')'; j++)
-            {
-                if (((search[j+1]<='9') && (search[j+1]>='1')) || (search[j+1] =='.')) {
-                }
-                else{
-                    for (n = 0; n != (j+1); n++)
-                    {
-                        printf(" ");
-                    }
-                    printf("\nError: expected r '<double>'");
-                    exit(0);
+    }
+
+    // check radius
+    for (i = 0; i < m_string; i++) {
+        if ((search[i] == ',') && (search[i + 1] == ' ')) {
+            for (g = (i + 1); search[g + 1] != ')'; g++) {
+                if (((search[g + 1] <= '9') && (search[g + 1] >= '0'))
+                    || (search[g + 1] == '.')) {
+                    return 0;
+                } else {
+                    return ExpDouble;
                 }
             }
         }
     }
+    return 0;
 }

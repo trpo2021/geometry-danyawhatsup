@@ -6,7 +6,7 @@ struct object {
     int object_crossing_1;
     int object_crossing_2;
 };
-void check_circle(char* search, int m_string);
+int check_circle(char* search, int m_string);
 float p_and_a(char* search, int m_string);
 void output(struct object* circle);
 float coordinate_x(char* search, int m_string);

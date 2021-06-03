@@ -1,5 +1,4 @@
 #include "function.h"
-
 #include <ctype.h>
 #include <math.h>
 #include <stdio.h>
@@ -9,42 +8,46 @@
 int main()
 {
     int m_string = 60;
-    char search[m_string];
-    struct object circle[3];
-    char verify;
-    int result_char;
+    int error;
+    char search1[m_string];
+    char search2[m_string];
 
-    for (int i = 0; i < 3; i++) {
-        result_char = 0;
-        printf("\nEnter your information as shown on the example: \nObject '(' Point ',' Number ')'\nPoint = Number Number\nNumber = (* Floating-point number *)\nEnter please: \n");
-        for (int j = 0; j < m_string; j++) {
-            verify = getchar();
-            if (verify == '\n') {
-                break;
-            }
-            search[j] = verify;
-            result_char++;
-        }
-        for (int k = result_char; k < m_string; k++) {
-            search[result_char] = '\0';
-        }
-
-        check_circle(search, m_string);
-        circle[i].r = p_and_a(search, m_string);
-        circle[i].x = coordinate_x(search, m_string);
-        circle[i].y = coordinate_y(search, m_string);
-
-        for (int j = 0; j < m_string; j++) {
-            search[j] = '\0';
-        }
-    }
-    for (int i = 0; i < 3; i++) {
-        printf("circle(%.2f %.2f, %.2f)\n",
-               circle[i].x,
-               circle[i].y,
-               circle[i].r);
+    printf("\nEnter your information as shown on the example: \nObject '(' Point ',' Number ')'\nPoint = Number Number\nNumber = (* Floating-point number *)\nEnter please: \n");
+    scanf("%[^\n]s", search1);
+    getchar();
+    error = check_circle(search1, m_string);
+    if (error != 0) {
+       print_error(error);
+        exit(0);
     }
 
-    object_crossing(circle);
-    output(circle);
+    printf("\nEnter your information as shown on the example: \nObject '(' Point ',' Number ')'\nPoint = Number Number\nNumber = (* Floating-point number *)\nEnter please: \n");
+    scanf("%[^\n]s", search2);
+    check_circle(search2, m_string);
+    error = check_circle(search1, m_string);
+    if (error != 0) {
+        print_error(error);
+        exit(0);
+    }
+
+    printf("\n");
+    printf("1st Circle:");
+    output(search1, m_string);
+    printf("\n2nd Circle:");
+    output(search2, m_string);
+
+    printf("\n");
+    printf("\nPerimeter and area of the 1st circle:");
+    p_and_a(search1, m_string);
+    printf("\n");
+    printf("Perimeter and area of the 2ed circle:");
+    p_and_a(search2, m_string);
+
+    printf("\n");
+    if (crossing(search1, search2, m_string)== 1) {
+        printf("Circles crossing");
+    } else
+        printf("Circles dont crossing");
+    return 0;
 }
+    

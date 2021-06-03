@@ -5,82 +5,94 @@
 #include <stdlib.h>
 #include <string.h>
 
-void object_crossing(struct object* circle)
+int crossing(char* search1, char* search2, int m_string)
 {
-    float circle1_circle2, circle1_circle3, circle2_circle3, r1_r2, r1_r3,
-            r2_r3;
-    circle1_circle2
-            = sqrt((circle[0].x - circle[1].x) * (circle[0].x - circle[1].x)
-                   + (circle[0].y - circle[1].y) * (circle[0].y - circle[1].y));
-    circle1_circle3
-            = sqrt((circle[0].x - circle[2].x) * (circle[0].x - circle[2].x)
-                   + (circle[0].y - circle[2].y) * (circle[0].y - circle[2].y));
-    circle2_circle3
-            = sqrt((circle[1].x - circle[2].x) * (circle[1].x - circle[2].x)
-                   + (circle[1].y - circle[2].y) * (circle[1].y - circle[2].y));
-    r1_r2 = circle[0].r + circle[1].r;
-    r1_r3 = circle[0].r + circle[2].r;
-    r2_r3 = circle[1].r + circle[2].r;
+    int i, g, j;
 
-    for (int i = 0; i < 3; i++) {
-        circle[i].object_crossing_1 = -1;
-        circle[i].object_crossing_2 = -1;
-    }
+    char rad1[m_string];
+    char rad2[m_string];
+    char x1[m_string];
+    char y1[m_string];
+    char x2[m_string];
+    char y2[m_string];
 
-    if ((circle1_circle2 > r1_r2) && (circle1_circle3 > r1_r3)
-        && (circle2_circle3 > r2_r3)) // 000
-    {
-    } else if (
-            (circle1_circle2 > r1_r2) && (circle1_circle3 > r1_r3)
-            && (circle2_circle3 <= r2_r3)) // 001
-    {
-        circle[1].object_crossing_1 = 3;
-        circle[2].object_crossing_1 = 2;
-    } else if (
-            (circle1_circle2 > r1_r2) && (circle1_circle3 <= r1_r3)
-            && (circle2_circle3 > r2_r3)) // 010
-    {
-        circle[0].object_crossing_1 = 3;
-        circle[2].object_crossing_1 = 1;
-    } else if (
-            (circle1_circle2 > r1_r2) && (circle1_circle3 <= r1_r3)
-            && (circle2_circle3 <= r2_r3)) // 011
-    {
-        circle[0].object_crossing_1 = 3;
-        circle[1].object_crossing_1 = 3;
-        circle[2].object_crossing_1 = 1;
-        circle[2].object_crossing_2 = 2;
-    } else if (
-            (circle1_circle2 <= r1_r2) && (circle1_circle3 > r1_r3)
-            && (circle2_circle3 > r2_r3)) // 100
-    {
-        circle[0].object_crossing_1 = 2;
-        circle[1].object_crossing_1 = 1;
-    } else if (
-            (circle1_circle2 <= r1_r2) && (circle1_circle3 > r1_r3)
-            && (circle2_circle3 <= r2_r3)) // 101
-    {
-        circle[0].object_crossing_1 = 2;
-        circle[2].object_crossing_1 = 2;
-        circle[1].object_crossing_1 = 1;
-        circle[1].object_crossing_2 = 3;
-    } else if (
-            (circle1_circle2 <= r1_r2) && (circle1_circle3 <= r1_r3)
-            && (circle2_circle3 > r2_r3)) // 110
-    {
-        circle[2].object_crossing_1 = 1;
-        circle[1].object_crossing_1 = 1;
-        circle[0].object_crossing_1 = 2;
-        circle[0].object_crossing_2 = 3;
-    } else if (
-            (circle1_circle2 <= r1_r2) && (circle1_circle3 <= r1_r3)
-            && (circle2_circle3 <= r2_r3)) // 111
-    {
-        circle[0].object_crossing_1 = 2;
-        circle[0].object_crossing_2 = 3;
-        circle[1].object_crossing_1 = 1;
-        circle[1].object_crossing_2 = 3;
-        circle[2].object_crossing_1 = 1;
-        circle[2].object_crossing_2 = 2;
+    float r1, r2, xx1, xx2, yy1, yy2, dist;
+
+    r1 = 0;
+    r2 = 0;
+
+    // radius 1
+    for (i = 0; i < m_string; i++) {
+        if ((search1[i] == ',') && (search1[i + 1] == ' ')) {
+            for (g = i; search1[g + 1] != ')'; g++) {
+                rad1[g - i] = search1[g + 1];
+            }
+        }
     }
+    r1 = atof(rad1);
+
+    // radius 2
+    for (i = 0; i < m_string; i++) {
+        if ((search2[i] == ',') && (search2[i + 1] == ' ')) {
+            for (g = i; search2[g + 1] != ')'; g++) {
+                rad2[g - i] = search2[g + 1];
+            }
+        }
+    }
+    r2 = atof(rad2);
+
+    // x1
+    for (i = 0; i < m_string; i++) {
+        if (search1[i] == '(') {
+            for (g = i; search1[g + 1] != ' '; g++) {
+                x1[g - i] = search1[g + 1];
+            }
+        }
+    }
+    xx1 = atof(x1);
+
+    // x2
+    for (i = 0; i < m_string; i++) {
+        if (search2[i] == '(') {
+            for (g = i; search2[g + 1] != ' '; g++) {
+                x2[g - i] = search2[g + 1];
+            }
+        }
+    }
+    xx2 = atof(x2);
+
+    // y1
+    for (i = 0; i < m_string; i++) {
+        if (search1[i] == ' ') {
+            for (j = i; j < m_string; j++) {
+                if (search1[j] == ',') {
+                    for (g = i; search1[g + 1] != ','; g++) {
+                        y1[g - i] = search1[g + 1];
+                    }
+                }
+            }
+        }
+    }
+    yy1 = atof(y1);
+
+    // y2
+    for (i = 0; i < m_string; i++) {
+        if (search2[i] == ' ') {
+            for (j = i; j < m_string; j++) {
+                if (search2[j] == ',') {
+                    for (g = i; search2[g + 1] != ','; g++) {
+                        y1[g - i] = search2[g + 1];
+                    }
+                }
+            }
+        }
+    }
+    yy2 = atof(y2);
+
+    dist = sqrt((xx2 - xx1) * (xx2 - xx1) + (yy2 - yy1) * (yy2 - yy1));
+
+    if (dist <= (r1 + r2)) {
+        return 1;
+    } else
+        return 0;
 }

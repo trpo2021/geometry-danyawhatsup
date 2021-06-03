@@ -5,7 +5,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-float p_and_a(char* search, int m_string)
+void p_and_a(char* search, int m_string)
 {
     int i, j;
     char rad[m_string];
@@ -25,5 +25,5 @@ float p_and_a(char* search, int m_string)
     r = atof(rad);
     area = M_PI * r * r;
     perimeter = 2 * M_PI * r;
-    return r;
+    printf("\n perimeter = %.4f\n area = %.4f\n", perimeter, area);
 }

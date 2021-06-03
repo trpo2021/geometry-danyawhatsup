@@ -7,18 +7,18 @@
 
 enum Errors { UnExpToken = 1, ExpBracket, ExpDouble, ExpCircle };
 
-void print_error(int err)
+void print_error(int error)
 {
-    if (err == UnExpToken) {
+    if (error == UnExpToken) {
         printf("\nError: unexpected token");
     }
-    if (err == ExpBracket) {
+    if (error == ExpBracket) {
         printf("\nError: expected ')'");
     }
-    if (err == ExpDouble) {
+    if (error == ExpDouble) {
         printf("\nError: expected '<double>'");
     }
-    if (err == ExpCircle) {
+    if (error == ExpCircle) {
         printf("\nError: expected 'circle'");
     }
 }

@@ -4,7 +4,7 @@
 
 #include "ctest.h"
 
-int main(int argc, const char** argv)
+int main_1(int argc, const char** argv)
 {
     return ctest_main(argc, argv);
 }

@@ -1,4 +1,4 @@
-APP_NAME = main
+APP_NAME = geometry
 LIB_NAME = libgeometry
 TEST_NAME = geometry_test
 

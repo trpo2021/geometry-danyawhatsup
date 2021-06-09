@@ -1,4 +1,4 @@
-#include "../libgeometry/function.h"
+#include "function.h"
 
 #include <ctype.h>
 #include <math.h>

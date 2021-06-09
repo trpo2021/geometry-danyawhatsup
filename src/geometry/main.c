@@ -1,4 +1,5 @@
-#include "function.h"
+#include "../libgeometry/function.h"
+
 #include <ctype.h>
 #include <math.h>
 #include <stdio.h>

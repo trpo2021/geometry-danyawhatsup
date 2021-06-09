@@ -1,5 +1,5 @@
+#include "../src/libgeometry/function.h"
 #include "ctest.h"
-#include "function.h"
 
 CTEST(check_circle, correct_input)
 {
